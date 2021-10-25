@@ -1,0 +1,17 @@
+*****1 - classificação de estados
+	filtrar as 5 cidades/estados com maior em cada coluna
+
+*****2 - Quais os melhores indicadores de [estado]
+	filtrar o estado mencionado e ver qual cidade tem Melhor nota em cada coluna	
+
+*****3 - Quais os piores indicadores [estado]
+	filtrar o estado mencionado e ver qual cidade tem pior Maior nota em cada coluna
+
+*****4 - quais tem maior crescimento
+	filtrar as 5 maiores qtds de 'crescimento' e mostrar a cidade/estado
+
+*****5 - quais tem menor crescimento
+	filtrar as 5 menores qtds de 'crescimento' e mostrar a cidade/estado
+	
+****6 - Mais matriculas
+	filtrar as 5 maiores qtds de 'matriculas' e mostrar a cidade/estado
