@@ -140,66 +140,18 @@ def bot():
 
         responded = True
     elif 'CIDADES EM CRESCIMENTO' in incoming_msg or '4' in incoming_msg:
-
-        result0 = dataFrame.sort_values(by=['Crescimento entre 2017 e 2019'], ascending=False).iloc[0, [0, 1, 8]]
-        result1 = dataFrame.sort_values(by=['Crescimento entre 2017 e 2019'], ascending=False).iloc[1, [0, 1, 8]]
-        result2 = dataFrame.sort_values(by=['Crescimento entre 2017 e 2019'], ascending=False).iloc[2, [0, 1, 8]]
-        result3 = dataFrame.sort_values(by=['Crescimento entre 2017 e 2019'], ascending=False).iloc[3, [0, 1, 8]]
-        result4 = dataFrame.sort_values(by=['Crescimento entre 2017 e 2019'], ascending=False).iloc[4, [0, 1, 8]]
-
-
+        response = optionFive()
+        msg.body(response)
         responded = True
 
-        response = "****** 4 - CIDADES EM CRESCIMENTO ******\n\n" \
-                   "*1º LUGAR:*\n\n %s%% \n\n" \
-                   "*2º LUGAR:*\n\n %s%% \n\n" \
-                   "*3º LUGAR:*\n\n %s%% \n\n" \
-                   "*4º LUGAR:*\n\n %s%% \n\n" \
-                   "*5º LUGAR:*\n\n %s%% \n\n" % \
-                   (result0.to_string(name=False, dtype=False), result1.to_string(name=False, dtype=False),
-                  result2.to_string(name=False, dtype=False),
-                  result3.to_string(name=False, dtype=False),
-                  result4.to_string(name=False, dtype=False))
-
-        msg.body(response)
     elif 'CIDADES EM DECAIMENTO' in incoming_msg or '5' in incoming_msg:
-        result0 = dataFrame.sort_values(by=['Crescimento entre 2017 e 2019'], ascending=False).iloc[-1, [0, 1, 8]]
-        result1 = dataFrame.sort_values(by=['Crescimento entre 2017 e 2019'], ascending=False).iloc[-2, [0, 1, 8]]
-        result2 = dataFrame.sort_values(by=['Crescimento entre 2017 e 2019'], ascending=False).iloc[-3, [0, 1, 8]]
-        result3 = dataFrame.sort_values(by=['Crescimento entre 2017 e 2019'], ascending=False).iloc[-4, [0, 1, 8]]
-        result4 = dataFrame.sort_values(by=['Crescimento entre 2017 e 2019'], ascending=False).iloc[-5, [0, 1, 8]]
-
-        response = "****** 5 - CIDADES EM DECAIMENTO ******\n\n" \
-                   "*1º LUGAR:*\n\n %s%% \n\n" \
-                   "*2º LUGAR:*\n\n %s%% \n\n" \
-                   "*3º LUGAR:*\n\n %s%% \n\n" \
-                   "*4º LUGAR:*\n\n %s%% \n\n" \
-                   "*5º LUGAR:*\n\n %s%% \n\n" % \
-                   (result0.to_string(name=False, dtype=False), result1.to_string(name=False, dtype=False),
-                  result2.to_string(name=False, dtype=False),
-                  result3.to_string(name=False, dtype=False),
-                  result4.to_string(name=False, dtype=False))
-
+        response = optionFive()
         msg.body(response)
         responded = True
+
     elif 'MAIS MATRICULAS' in incoming_msg or '6' in incoming_msg:
-        result0 = dataFrame.sort_values(by=['Matriculados'], ascending=False).iloc[0, [0, 1, 2]]
-        result1 = dataFrame.sort_values(by=['Matriculados'], ascending=False).iloc[1, [0, 1, 2]]
-        result3 = dataFrame.sort_values(by=['Matriculados'], ascending=False).iloc[2, [0, 1, 2]]
-        result2 = dataFrame.sort_values(by=['Matriculados'], ascending=False).iloc[3, [0, 1, 2]]
-        result4 = dataFrame.sort_values(by=['Matriculados'], ascending=False).iloc[4, [0, 1, 2]]
 
-        response = "****** 6 - CIDADES COM MAIS MATRICULAS ******\n\n" \
-                   "*1º LUGAR:*\n\n %s \n\n" \
-                   "*2º LUGAR:*\n\n %s \n\n" \
-                   "*3º LUGAR:*\n\n %s \n\n" \
-                   "*4º LUGAR:*\n\n %s \n\n" \
-                   "*5º LUGAR:*\n\n %s \n\n" % \
-                   (result0.to_string(name=False, dtype=False), result1.to_string(name=False, dtype=False),
-                  result2.to_string(name=False, dtype=False),
-                  result3.to_string(name=False, dtype=False),
-                  result4.to_string(name=False, dtype=False))
-
+        response = optionSix()
         msg.body(response)
         responded = True
 
@@ -226,14 +178,22 @@ def optionThree(estado):
     return result
 
 def optionFour():
-    return
+    title = '4 - CIDADES EM CRESCIMENTO'
+    result = ranking(title, True, 8, 'Crescimento entre 2017 e 2019')
+    return result
 
 def optionFive():
-    return
+    title = '5 - CIDADES EM DECAIMENTO'
+    result = ranking(title, False, 8, 'Crescimento entre 2017 e 2019')
+    return result
 
 def optionSix():
-    return
+    title = '6 - CIDADES COM MAIS MATRICULAS'
+    result = ranking(title,True,2,'Matriculados')
+    return result
 
+
+# resposta p/ saida padrão
 def help():
     response = "😔 Não entendi muito bem o que você deseja. Tente algo como:\n \
             1 * Classificação de estados\n \
@@ -247,8 +207,9 @@ def help():
                "MINAS GERAIS\n PARÁ\n MATO GROSO\n RIO GRANDE DO SUL\n PERNAMBUCO"
     return response
 
-def consult(state, title, estado, direction):
-    if state:
+# faz filtros na base inteira com ou sem estado no resultado
+def consult(isState, title, estado, direction):
+    if isState:
 
         # filtrando de forma crescente e pegando da primeira linha
         # do resultado apenas as colunas 0(estado),1()cidade,2()matriculas
@@ -300,6 +261,44 @@ def consult(state, title, estado, direction):
 
     # name e dtype false são informações desnecessárias que poluíam a resposta
     return text_final
+
+# ve o top 5
+def ranking(title,direction,index, column):
+    if direction:
+        result0 = dataFrame.sort_values(by=[column], ascending=False).iloc[0, [0, 1, index]]
+        result1 = dataFrame.sort_values(by=[column], ascending=False).iloc[1, [0, 1, index]]
+        result3 = dataFrame.sort_values(by=[column], ascending=False).iloc[2, [0, 1, index]]
+        result2 = dataFrame.sort_values(by=[column], ascending=False).iloc[3, [0, 1, index]]
+        result4 = dataFrame.sort_values(by=[column], ascending=False).iloc[4, [0, 1, index]]
+
+        response = "****** %s ******\n\n" \
+                   "*1º LUGAR:*\n\n %s \n\n" \
+                   "*2º LUGAR:*\n\n %s \n\n" \
+                   "*3º LUGAR:*\n\n %s \n\n" \
+                   "*4º LUGAR:*\n\n %s \n\n" \
+                   "*5º LUGAR:*\n\n %s \n\n" % \
+                   (title, result0.to_string(name=False, dtype=False), result1.to_string(name=False, dtype=False),
+                    result2.to_string(name=False, dtype=False),
+                    result3.to_string(name=False, dtype=False),
+                    result4.to_string(name=False, dtype=False))
+    else:
+        result0 = dataFrame.sort_values(by=[column], ascending=False).iloc[-1, [0, 1, index]]
+        result1 = dataFrame.sort_values(by=[column], ascending=False).iloc[-2, [0, 1, index]]
+        result3 = dataFrame.sort_values(by=[column], ascending=False).iloc[-3, [0, 1, index]]
+        result2 = dataFrame.sort_values(by=[column], ascending=False).iloc[-4, [0, 1, index]]
+        result4 = dataFrame.sort_values(by=[column], ascending=False).iloc[-5, [0, 1, index]]
+
+        response = "****** %s ******\n\n" \
+                   "*1º LUGAR:*\n\n %s \n\n" \
+                   "*2º LUGAR:*\n\n %s \n\n" \
+                   "*3º LUGAR:*\n\n %s \n\n" \
+                   "*4º LUGAR:*\n\n %s \n\n" \
+                   "*5º LUGAR:*\n\n %s \n\n" % \
+                   (title, result0.to_string(name=False, dtype=False), result1.to_string(name=False, dtype=False),
+                    result2.to_string(name=False, dtype=False),
+                    result3.to_string(name=False, dtype=False),
+                    result4.to_string(name=False, dtype=False))
+    return response
 
 if __name__ == '__main__':
     app.run()
